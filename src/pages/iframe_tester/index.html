@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+	<head>
+
+		<meta charset="utf-8">
+		<title>Iframe tester</title>
+		<link rel = "stylesheet" href = "https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" >
+		<link rel = "stylesheet" href = "style.css" >
+
+	</head>
+
+	<body>
+
+		<div id = "root" >
+
+			<div id = "sidebar" >
+
+				<div class = "sidebar_button" v-on:click = "sidebar_button_click( 'show_nutrition_info_1' )" >show_nutrition_info_1</div>
+				<div class = "sidebar_button" v-on:click = "sidebar_button_click( 'show_nutrition_info_2' )" >show_nutrition_info_2</div>
+				<div class = "sidebar_button" v-on:click = "sidebar_button_click( 'set_page-not_found' )" >set_page-not_found</div>
+
+			</div>
+
+			<div id = "content" >
+
+				<div id = "iframe_container" >
+
+				</div>
+
+			</div>
+
+		</div>
+
+		<div id = "script" hidden >
+
+			<script src = "/lib/jquery.min.js" ></script>
+			<script src = "/lib/webx.js" ></script>
+			<script src = "/lib/vue.min.js" ></script>
+
+			<script src = "main.js" ></script>
+
+		</div>
+
+	</body>
+
+</html>

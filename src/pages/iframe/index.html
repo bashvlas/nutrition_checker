@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+	<head>
+
+		<meta charset="utf-8">
+		<title></title>
+
+		<link rel = "stylesheet" href = "https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" >
+		<link rel = "stylesheet" href = "style.css" >
+
+	</head>
+
+	<body>
+
+		<div id = "root" >
+
+			<div class = "page-container" >
+
+				<div class = "page-header" >
+
+					<div class = "nav_button_container" v-on:click = "nav_button_click" >
+						<svg viewBox="0 0 20 20" preserveAspectRatio="xMidYMid meet" class = "nav_button" >
+							<g>
+								<rect x="2" y="4" width="16" height="2"></rect>
+								<rect x="2" y="9" width="16" height="2"></rect>
+								<rect x="2" y="14" width="16" height="2"></rect>
+							</g>
+						</svg>
+					</div>
+
+					<img class = "page-header_logo" src = "/img/logo.svg" >
+
+					<div>Nutrition Checker</div>
+
+					<div class = "page-header_close_button" v-on:click = "close_button_click()" >
+						<svg viewBox="0 0 24 24">
+							<path fill="#000000" d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" />
+						</svg>
+					</div>
+
+					<div class = "page-header-dropshadow" >
+
+					</div>
+
+				</div>
+
+				<div class = "page nutrition_info" v-bind:class = "{ active: active_page_name === 'nutrition_info' }" >
+
+					<div class = "page_content" >
+
+						<div class = "page_body" v-if = "nutrition_info" >
+
+							<div class = "info_item no_border" >
+
+								<div v-text = "nutrition_info.name" class = "info_item-name" ></div>
+
+							</div>
+
+							<div class = "info_item" >
+
+								<div class = "info_item-name" >Calories</div>
+								<div v-text = "nutrition_info.calories" class = "info_item-amount" ></div>
+
+							</div>
+
+							<div v-for = "info_item in nutrition_info.info_item_arr" class = "info_item-wrap" >
+
+								<div class = "info_item" >
+
+									<div v-text = "info_item.name" class = "info_item-name" ></div>
+									<div v-text = "info_item.amount" class = "info_item-amount" ></div>
+									<div class = "flex_grow" ></div>
+									<div v-if = "info_item.daily_value !== null" v-text = "info_item.daily_value + '%'" class = "info_item-daily_value" ></div>
+
+								</div>
+
+								<div v-if = "info_item.child_info_item_arr" class = "info_item-wrap" >
+
+									<div v-for = "info_item in info_item.child_info_item_arr" class = "info_item child" >
+
+										<div v-text = "info_item.name" class = "info_item-name" ></div>
+										<div v-text = "info_item.amount" class = "info_item-amount" ></div>
+										<div class = "flex_grow" ></div>
+										<div v-if = "info_item.daily_value !== null" v-text = "info_item.daily_value + '%'" class = "info_item-daily_value" ></div>
+										
+									</div>
+
+								</div>
+
+							</div>
+
+						</div>
+
+					</div>
+
+				</div>
+
+				<div class = "page not_found" v-bind:class = "{ active: active_page_name === 'not_found' }" >
+
+					<div class = "page_content" >
+
+						<div class = "not_found_picture" >
+
+							<img src = "/img/plate.svg" >
+
+						</div>
+
+						<div class = "text_headline" >
+							Nutrition Facts Not Found
+						</div>
+
+					</div>
+
+				</div>
+
+			</div>
+
+			<div id = "drawer_overlay" v-on:click = "drawer_overlay_click" >
+
+				<div id = "drawer" v-on:click = "drawer_click" >
+
+					<div id = "drawer_header" >Nutrition Checker</div>
+
+					<div class = "drawer_item_container" >
+
+						<div class = "drawer_item" v-on:click = "drawer_item_click( 'how_it_works' )" >
+							<img class = "drawer_item_icon" src = "/img/logo.png" style = "filter: brightness(0.7) saturate(0)" >
+							<span>Main page</span>
+						</div>
+
+						<div class = "drawer_item" v-on:click = "drawer_item_click( 'how_it_works' )" >
+							<svg class = "drawer_item_icon" viewBox="0 0 24 24">
+								<path fill="#000000" d="M11,18H13V16H11V18M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,6A4,4 0 0,0 8,10H10A2,2 0 0,1 12,8A2,2 0 0,1 14,10C14,12 11,11.75 11,15H13C13,12.75 16,12.5 16,10A4,4 0 0,0 12,6Z" />
+							</svg>
+							<span>How it works</span>
+						</div>
+
+						<div class = "drawer_item" v-on:click = "drawer_item_click( 'go_to_eversign' )" >
+
+							<svg class = "drawer_item_icon" viewBox="0 0 24 24">
+							    <path fill="#000000" d="M12,17.5C14.33,17.5 16.3,16.04 17.11,14H6.89C7.69,16.04 9.67,17.5 12,17.5M8.5,11A1.5,1.5 0 0,0 10,9.5A1.5,1.5 0 0,0 8.5,8A1.5,1.5 0 0,0 7,9.5A1.5,1.5 0 0,0 8.5,11M15.5,11A1.5,1.5 0 0,0 17,9.5A1.5,1.5 0 0,0 15.5,8A1.5,1.5 0 0,0 14,9.5A1.5,1.5 0 0,0 15.5,11M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20M12,2C6.47,2 2,6.5 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" />
+							</svg>
+
+							<span>Chat with us</span>
+
+						</div>
+
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+		<div id = "templates" hidden >
+
+		</div>
+
+		<div id = "script" hidden >
+
+			<script src = "/lib/jquery.min.js" ></script>
+			<script src = "/lib/webx.js" ></script>
+			<script src = "/lib/vue.min.js" ></script>
+
+			<script src = "/lib/d3.min.js" ></script>
+			<script src = "/lib/radarChart.js" ></script>
+
+			<script src = "main.js" ></script>
+
+		</div>
+
+	</body>
+
+</html>

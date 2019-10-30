@@ -1,0 +1,460 @@
+
+	/* general */
+
+		html, body {
+
+			display: block;
+
+			width: 100%;
+			height: 100%;
+			margin: 0px;
+
+			border: none;
+
+		}
+
+		#root {
+
+			display: flex;
+			justify-content: flex-start;
+
+			width: fit-content;
+			height: fit-content;
+
+			font-family: Roboto, sans-serif;
+			background-color: white;
+
+		}
+
+		#root.full_height {
+
+			height: 100%;
+
+		}
+
+		* {
+
+			box-sizing: border-box;
+
+		}
+
+		.flex_grow {
+
+			flex-grow: 1;
+
+		}
+
+	/**/
+
+	/* page */
+
+		/* general */
+
+			.page-container {
+
+				display: block;
+
+				width: 100%;
+				height: 100%;
+
+			}
+
+			.page {
+
+				display: none;
+				z-index: 100;
+
+				width: 100%;
+				height: 100%;
+
+			}
+
+			.page.active {
+
+				display: flex;
+				flex-direction: column;
+
+			}
+
+			.page_content {
+
+				overflow: auto;
+				height: calc( 100% - 50px );
+
+
+			}
+
+		/**/
+
+		/* page-header */
+
+			.page-header {
+
+				flex-shrink: 0;
+
+				position: relative;
+				z-index: 300;
+
+				display: flex;
+				justify-content: center;
+				align-items: center;
+
+				height: 50px;
+				width: 100%;
+				padding: 0px;
+
+				background-color: white;
+
+				color: #4caf50ff;
+				font-weight: 600;
+				font-size: 18px;
+				letter-spacing: 1px;
+
+			}
+
+			.nav_button_container {
+
+				position: absolute;
+				top: 9px;
+				left: 12px;
+
+				display: flex;
+				justify-content: center;
+				align-items: center;
+
+				height: 32px;
+				width: 32px;
+
+			}
+
+			.nav_button {
+
+				width: 20px;
+				height: 20px;
+
+				cursor: pointer;
+				fill: black;
+
+			}
+
+			.page-header_logo {
+
+				height: 26px;
+				margin-right: 8px;
+
+			}
+
+			.page-header-dropshadow {
+
+				position: absolute;
+				bottom: -6px;
+				left: 0px;
+				height: 6px;
+				width: 100%;
+				box-shadow: inset 0 5px 6px -3px rgba( 0, 0, 0, 0.4 );
+
+			}
+
+			.page-header_close_button {
+
+				position: absolute;
+
+				right: 13px;
+				top: 13px;
+
+				display: flex;
+				justify-content: center;
+				align-items: center;
+
+				width: 24px;
+				height: 24px;
+
+				border-radius: 4px;
+				background-color: rgba(249, 250, 252, 0.2);
+
+				cursor: pointer;
+				fill: black;
+
+			}
+
+			.page-header_close_button svg {
+
+				width: 20px;
+				height: 20px;
+
+			}
+
+		/**/
+
+		/* nutrition_info */
+
+			.page.nutrition_info .page_body {
+
+				display: flex;
+				flex-direction: column;
+
+				padding: 12px 0px;
+				width: 360px;
+
+			}
+
+			.page.nutrition_info .section_body {
+
+				padding: 0px 24px 24px 24px;
+
+			}
+
+			.info_item-wrap {
+
+				width: 100%;
+
+			}
+
+			.info_item {
+
+				display: flex;
+				justify-content: flex-start;
+				align-items: center;
+
+				height: 32px;
+				width: 100%;
+				padding: 5.6px 15px;
+
+				border-top: 1px solid rgba( 0, 0, 0, 0.12 );
+
+				color: rgb(34, 34, 34);
+				font-size: 14px;
+
+			}
+
+			.info_item.no_border {
+
+				border-top: none;
+
+			}
+
+			.info_item-name {
+
+				margin-right: 8px;
+
+				font-weight: 700;
+
+				text-transform: capitalize;
+
+			}
+
+			.info_item.child {
+
+				padding-left: 30px;
+
+			}
+
+			.info_item.child .info_item-name {
+
+				font-weight: 400;
+
+			}
+
+		/**/
+
+		/* not_found */
+
+			.page.not_found .page_content {
+
+				display: flex;
+				flex-direction: column;
+				justify-content: flex-start;
+				align-items: center;
+
+				width: 360px;
+				height: 240px;
+
+			}
+
+			.page.not_found .not_found_picture {
+
+				display: flex;
+				justify-content: center;
+				align-items: center;
+
+				width: 80px;
+				height: 80px;
+				margin: 39px 0px 32px;
+
+				border-radius: 40px;
+
+			}
+
+			.page.not_found .not_found_picture img {
+
+				width: 100%;
+				height: 100%;
+
+			}
+
+			.page.not_found .text_normal {
+
+				width: 200px;
+				margin: 16px 0px 48px;
+
+			}
+
+			.page.not_found .page_footer {
+
+				flex-shrink: 0;
+
+				display: flex;
+				justify-content: center;
+				align-items: center;
+
+				width: 100%;
+				height: 64px;
+				background-color: #f9fafc;
+
+				border-top: 1px solid #dee1e6;
+				white-space: pre;
+
+			}
+
+		/**/
+
+	/**/
+
+	/* drawer */
+
+		/* general */
+
+			#drawer_overlay {
+
+				position: absolute;
+				display: none;
+				z-index: 300;
+
+				top: 0px;
+				left: 0px;
+				width: 100%;
+				height: 100%;
+
+				background-color: rgba( 0, 0, 0, 0 );
+				transition: all 0.2s ease;
+
+			}
+
+			#drawer {
+
+				position: absolute;
+				top: 0px;
+				left: -256px;
+
+				width: 256px;
+				height: 100%;
+
+				background-color: #FFFFFF;
+				transition: all 0.2s ease;
+
+			}
+
+			#drawer_overlay.opened {
+
+				background-color: rgba( 0, 0, 0, 0.6 );
+
+			}
+
+			#drawer_overlay.opened #drawer {
+
+				left: 0px;
+
+			}
+
+		/**/
+
+		/* content */
+
+			#drawer_header {
+
+				display: flex;
+				justify-content: flex-start;
+				align-items: center;
+
+				box-sizing: border-box;
+
+				height: 56px;
+				padding-left: 24px;
+
+				border-bottom: 1px solid rgba( 0, 0, 0, 0.06 );
+
+				font-size: 16px;
+
+			}
+
+			.drawer_item_container {
+
+				margin-top: 8px;
+
+			}
+
+			.drawer_item {
+
+				display: flex;
+				justify-content: flex-start;
+				align-items: center;
+
+				box-sizing: content-box;
+
+				height: 20px;
+				padding: 10px 0px 10px 24px;
+
+				cursor: pointer;
+
+			}
+
+			.drawer_item_icon {
+
+				width: 20px;
+				height: 20px;
+				margin-right: 24px;
+
+			}
+
+			.drawer_item.hidden {
+
+				display: none;
+
+			}
+
+			.drawer_item path {
+
+				fill: rgb( 90, 90, 90 );
+
+			}
+
+			.drawer_item span {
+
+				font-size: 13px;
+				font-weight: 500;
+				color: rgb( 90, 90, 90 );
+
+			}
+
+		/**/
+
+	/**/
+
+	/* typography */
+
+		.text_headline {
+
+			font-size: 15px;
+			color: rgba( 0, 0, 0, 0.8 );
+			font-weight: 500;
+
+		}
+
+		.text_normal {
+
+			font-size: 13px;
+			color: rgba( 0, 0, 0, 0.8 );
+
+		}
+
+	/**/
