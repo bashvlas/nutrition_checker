@@ -57,8 +57,6 @@
 				"/lib/jquery.min.js",
 				"/lib/webx.js",
 
-				"/js/background/api_manager.js",
-				"/js/background/tab_storage_manager.js",
 				"/js/background/background_controller.js",
 
 				"/js/background/background.js"

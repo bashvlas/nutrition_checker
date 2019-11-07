@@ -10,45 +10,6 @@
 
 		var _priv = {
 
-			// converters
-
-
-			// procedures
-
-				show_sidebar: function ( exec ) {
-
-					exec( "injected_component_module", "show_component" );
-
-				},
-
-				hide_sidebar: function ( exec ) {
-
-					exec( "injected_component_module", "hide_component" );
-
-				},
-
-				kickstart: async () => {
-
-					_exec( "injected_component_module", "inject_component" );
-
-				},
-
-				init_email_detector: () => {
-
-					_app.x.detect({
-
-						method: "normal",
-						selector: ".slds-form-element",
-						callback: async ( element ) => {
-
-							_exec( "priv", "handle_email_element", element );
-
-						},
-
-					});
-
-				},
-
 			// handlers
 
 				handle_runtime_message: async ( message, sender, callback, exec ) => {
@@ -61,7 +22,7 @@
 
 					} if ( message.name === "show_nutrition_info" ) {
 
-						exec( "injected_component_module", "toggle" );
+						exec( "injected_component_module", "show_component" );
 						exec( "injected_component_module", "send_message", "show_nutrition_info", { nutrition_info: message.data.nutrition_info } );
 
 					};
@@ -71,22 +32,6 @@
 			// observers
 
 				add_observers: () => {
-
-					_app.hub.add_observers( "content_script_controller", {
-
-						close_button_click: () => {
-
-							_exec( "priv", "hide_sidebar" );
-
-						},
-
-						iframe_component_ready: () => {
-
-							_exec( "priv", "handle_iframe_component_ready" );
-
-						},
-
-					});
 
 					chrome.runtime.onMessage.addListener( ( message, sender, callback ) => {
 
@@ -108,7 +53,7 @@
 
 				_app.exec.add_module( "content_script_controller", "priv", _priv );
 
-				_exec( "priv", "kickstart" );
+				_exec( "injected_component_module", "inject_component" );
 
 				_priv.add_observers();
 

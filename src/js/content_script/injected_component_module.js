@@ -7,8 +7,6 @@
 		var _state = {
 
 			visible: false,
-			iframe_status: "not_ready",
-			current_size: "3",
 
 		};
 
@@ -30,27 +28,27 @@
 
 			add_observers: () => {
 
-				_app.hub.add_observers( "injected_component_module", {
+				window.addEventListener( "message", ( event ) => {
 
-					iframe_component_ready: () => {
+					var name = event.data.name;
+					var data = event.data.data;
 
-						_state.iframe_status = "ready";
+					console.log( "window_message", name, data );
 
-					},
+					if ( name === "root_size_change" ) {
 
-					root_size_change: ( data ) => {
+						$( _state.overlay ).css({
 
-						_state.root_width = data.width;
-						_state.root_height = data.height;
+							width: data.width,
+							height: data.height,
 
-						if ( _state.current_size === "3" ) {
+						});
 
-							$( _state.overlay ).css( "height", data.height + "px" );
-							$( _state.overlay ).css( "width", data.width + "px" );
+					} else if ( name === "close_button_click" ) {
 
-						};
+						_pub.hide_component();
 
-					},
+					};
 
 				});
 
@@ -81,7 +79,7 @@
 					`
 				);
 
-				_state.iframe_component = _app.iframe_component_external_manager.create_iframe_component_instance( "iframe", "/pages/iframe/index.html" );
+				_state.iframe_component = _app.iframe_component_external_manager.create_iframe_component_instance( "nutrition_checker_iframe", "/pages/iframe/index.html" );
 				_state.overlay.find( "#webx_iframe_container" ).append( _state.iframe_component.element );
 
 				$( document.documentElement ).append( _state.overlay );
@@ -104,59 +102,9 @@
 
 			},
 
-			toggle: () => {
-
-				if ( _state.visible ) {
-
-					_pub.hide_component();
-
-				} else {
-
-					_pub.show_component();
-
-				};
-
-			},
-
-			get_iframe_status: () => {
-
-				return _state.iframe_status;
-
-			},
-
 			send_message: ( name, data ) => {
 
-				_state.iframe_component.send_message( name, data );
-
-			},
-
-			set_size_1: function () {
-
-				$( _state.overlay ).css( "width", "" );
-				$( _state.overlay ).css( "height", "" );
-
-				_state.current_size = "1";
-				_state.overlay.removeClass( "size_1 size_2 size_3" ).addClass( "size_1" );
-
-			},
-
-			set_size_2: function () {
-
-				$( _state.overlay ).css( "width", "" );
-				$( _state.overlay ).css( "height", "" );
-
-				_state.current_size = "2";
-				_state.overlay.removeClass( "size_1 size_2 size_3" ).addClass( "size_2" );
-
-			},
-
-			set_size_3: function () {
-
-				$( _state.overlay ).css( "height", _state.root_height + "px" );
-				$( _state.overlay ).css( "width", _state.root_width + "px" );
-
-				_state.current_size = "3";
-				_state.overlay.removeClass( "size1 size_2 size_3" ).addClass( "size_3" );
+				document.querySelector( "iframe[name='nutrition_checker_iframe']" ).contentWindow.postMessage({ name, data }, "*" );
 
 			},
 

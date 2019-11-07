@@ -184,37 +184,31 @@
 
 	};
 
-	window.main_vm = new Vue({
+	new Vue({
 
 		el: "#root",
-		data: {
-
-			sum: 0,
-
-		},
+		data: {},
 		methods: {
 
-			init: function ( app ) {
+			inject_iframe: function () {
 
-				this.app = app;
-
-				this.app.hub.add_observers( "iframe", {
-
-					set_sum: ( data ) => {
-
-						this.sum = data.sum;
-
-					},
-
-				});
+				var iframe = document.createElement( "iframe" );
+				iframe.src = "/pages/iframe/index.html";
+				$( "#iframe_container" ).append( iframe );
 
 			},
 
-			sidebar_button_click: async function ( button_name ) {
+			send_to_iframe: function ( name, data ) {
+
+				document.querySelector( "iframe" ).contentWindow.postMessage({ name, data }, "*" );
+
+			},
+
+			sidebar_button_click: async function ( button_name, detail ) {
 
 				if ( button_name === "show_nutrition_info_1" ) {
 
-					this.app.controller.send_to_iframe( "show_nutrition_info", {
+					this.send_to_iframe( "show_nutrition_info", {
 
 						nutrition_info: window.data.nutrition_info_arr[ 0 ],
 
@@ -222,17 +216,17 @@
 
 				} else if ( button_name === "show_nutrition_info_2" ) {
 
-					this.app.controller.send_to_iframe( "show_nutrition_info", {
+					this.send_to_iframe( "show_nutrition_info", {
 
 						nutrition_info: window.data.nutrition_info_arr[ 1 ],
 
 					});
 
-				} else if ( button_name.slice( 0, 8 ) === "set_page" ) {
+				} else if ( button_name === "set_page" ) {
 
-					this.app.controller.send_to_iframe( "set_active_page_name", {
+					this.send_to_iframe( "set_active_page_name", {
 
-						active_page_name: button_name.slice( 9 ),
+						active_page_name: detail,
 
 					});
 
@@ -242,123 +236,30 @@
 
 		},
 
-	});
+		created: function () {
 
-	function controller () {
+			window.addEventListener( "message", ( event ) => {
 
-		var _exec = null;
-		var _app = null;
+				var name = event.data.name;
+				var data = event.data.data;
 
-		var _state = {
+				console.log( "window_message", name, data );
 
-			extension_is_active: false,
-			selection_is_active: false,
+				if ( name === "root_size_change" ) {
 
-			selection_data: {
+					$( "#iframe_container" ).css({
 
-				tbody: null,
-				td_1: null,
-				coordinates: null,
+						width: data.width,
+						height: data.height,
 
-			},
-
-			sum: 0,
-
-		};
-
-		var _priv = {
-
-
-		};
-
-		var _pub = {
-
-			init: function ( app ) {
-
-				_app = app;
-
-				var _exec_module = _app.x.modules.exec();
-				_exec_module.init( app );
-
-				_exec_module.add_module( "priv", _priv );
-				_exec_module.add_module( "pub", _pub );
-
-				_exec_module.add_module( "log", _app.log );
-				_exec_module.add_module( "chrome", _app.chrome );
-				_exec_module.add_module( "bg_api", _app.bg_api );
-
-				_exec = _exec_module.get_exec();
-
-				_state.iframe_component = _app.iframe_component_external_manager.create_iframe_component_instance( "iframe", "/pages/iframe/index.html" );
-				$( "#iframe_container" ).append( _state.iframe_component.element );
-
-				_app.hub.add_observers( "iframe_tester", {
-
-					root_size_change: function ( data ) {
-
-						$( "#iframe_container" ).css({
-
-							width: data.width,
-							height: data.height,
-
-						});
-
-					},
-
-				});
-
-			},
-
-			send_to_iframe: function ( name, data ) {
-
-				_state.iframe_component.send_message( name, data );
-
-			},
-
-		};
-
-		return _pub;
-
-	};
-
-	( function ( x ) {
-
-		x.util.load_resources([
-
-			[ "config", "json", "local/config.json" ],
-
-		]).then( ( resources ) => {
-
-			// create the app object which contains useful references for each module
-
-				var config = resources[ "config" ];
-
-				var app = {
-
-					name: "iframe_tester",
-
-					x: x,
-					config: config,
-					resources: resources,
-
-					log: x.modules.log(),
-					hub: x.modules.hub(),
-					iframe_component_external_manager: x.modules.iframe_component_external_manager(),
-
-					controller: window.controller(),
+					});
 
 				};
 
-			// initialize needed modules
+			});
 
-				app.log.init( app );
-				app.hub.init( app );
-				app.iframe_component_external_manager.init( app );
+			this.inject_iframe();
 
-				app.controller.init( app );
+		},
 
-				window.main_vm.init( app );
-
-		});
-
-	} ( window.webextension_library ) );
+	});
