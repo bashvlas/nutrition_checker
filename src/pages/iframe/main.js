@@ -2,6 +2,7 @@
 	new Vue({
 
 		el: "#root",
+
 		data: {
 
 			active_page_name: "not_found",
